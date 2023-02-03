@@ -1,0 +1,326 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="authors">
+    <title>New Tab</title>
+	 <link rel="preconnect" href="https://fonts.gstatic.com/">
+	 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="css/stylesmains.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+	
+	
+	 <script type="text/javascript">
+    var phone_number = ' 1-844-422-6392  (Toll Free)  ';
+    var phone_number2 = ' 1-844-422-6392 (Toll Free)  ';
+		
+	</script>
+	<style type="text/css">
+   .jameshen{
+        position: absolute;
+    bottom: 79px;
+    left: 166px;
+    font-size: 17px;
+    color: #fff;
+    font-weight: 800;
+   } 
+   .jameshenry{
+         position: absolute;
+    bottom: 91px;
+    left: 394px;
+    font-size: 17px;
+    color: #fff;
+	width: 400px;
+    font-weight: 500;
+
+   } 
+   .ceplectin {
+    position: absolute;
+    left: 19px;
+    bottom: 14px;
+    z-index: 99;
+    display: none;
+}
+.ceplectin img{
+  width: 204px;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+  </style>
+  </head>
+  <body id="aollonios">
+  	
+  <div id="arleen">  
+</div>
+
+<script type="text/javascript">
+/*!
+ * Documenter 2.0
+ * https://evp.to/documenter
+ *
+ * Copyright 2021, Xaver Birsak
+ * https://revaxarts.com
+ *
+ */
+
+$(document).ready(function() {
+	var timeout,
+		sections = new Array(),
+		sectionscount = 0,
+		win = $(window),
+		sidebar = $('#documenter_sidebar'),
+		nav = $('#documenter_nav'),
+		logo = $('#documenter_logo'),
+		navanchors = nav.find('a'),
+		timeoffset = 50,
+		hash = location.hash || null;
+		iDeviceNotOS4 = (navigator.userAgent.match(/iphone|ipod|ipad/i) && !navigator.userAgent.match(/OS 5/i)) || false,
+		badIE = $('html').prop('class').match(/ie(6|7|8)/)|| false;
+
+	//handle external links (new window)
+	$('a[href^=http]').bind('click',function(){
+		window.open($(this).attr('href'));
+		return false;
+	});
+
+	//IE 8 and lower doesn't like the smooth pagescroll
+	if(!badIE){
+		window.scroll(0,0);
+
+		$('a[href^=#]').bind('click touchstart',function(){
+			hash = $(this).attr('href');
+			$.scrollTo.window().queue([]).stop();
+			goTo(hash);
+			return false;
+		});
+
+		//if a hash is set => go to it
+		if(hash){
+			setTimeout(function(){
+				goTo(hash);
+			},500);
+		}
+	}
+
+
+	//We need the position of each section until the full page with all images is loaded
+	win.bind('load',function(){
+
+		var sectionselector = 'section';
+
+		//Documentation has subcategories
+		if(nav.find('ol').length){
+			sectionselector = 'section, h4';
+		}
+		//saving some information
+		$(sectionselector).each(function(i,e){
+			var _this = $(this);
+			var p = {
+				id: this.id,
+				pos: _this.offset().top
+			};
+			sections.push(p);
+		});
+
+		//how many sections
+		sectionscount = sections.length;
+
+		//bind the handler to the scroll event
+		win.bind('scroll',function(event){
+			clearInterval(timeout);
+			//should occur with a delay
+			timeout = setTimeout(function(){
+				//get the position from the very top in all browsers
+				pos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+
+				//iDeviceNotOS4s don't know the fixed property so we fake it
+				if(iDeviceNotOS4){
+					sidebar.css({height:document.height});
+					logo.css({'margin-top':pos});
+				}
+				//activate Nav element at the current position
+				activateNav(pos);
+			},timeoffset);
+		}).trigger('scroll');
+
+	});
+
+	//the function is called when the hash changes
+	function hashchange(){
+		goTo(location.hash, false);
+	}
+
+	//scroll to a section and set the hash
+	function goTo(hash,changehash){
+		win.unbind('hashchange', hashchange);
+		hash = hash.replace(/!\//,'');
+		win.stop().scrollTo(hash,duration,{
+			easing:easing,
+			axis:'y'
+		});
+		if(changehash !== false){
+			var l = location;
+			location.href = (l.protocol+'//'+l.host+l.pathname+'#'+hash.substr(1));
+		}
+		win.bind('hashchange', hashchange);
+	}
+
+
+	//activate current nav element
+	function activateNav(pos){
+		var offset = 100,
+		current, next, parent, isSub, hasSub;
+		win.unbind('hashchange', hashchange);
+		for(var i=sectionscount;i>0;i--){
+			if(sections[i-1].pos <= pos+offset){
+				navanchors.removeClass('current');
+				current = navanchors.eq(i-1);
+				current.addClass('current');
+
+				parent = current.parent().parent();
+				next = current.next();
+
+				hasSub = next.is('ul');
+				isSub = !parent.is('#documenter_nav');
+
+				nav.find('ol:visible').not(parent).slideUp('fast');
+				if(isSub){
+					parent.prev().addClass('current');
+					parent.stop().slideDown('fast');
+				}else if(hasSub){
+					next.stop().slideDown('fast');
+				}
+				win.bind('hashchange', hashchange);
+				break;
+			};
+		}
+	}
+
+    // make code pretty
+    window.prettyPrint && prettyPrint();
+
+});
+</script>
+
+<script type="text/javascript">
+var response = new data(5hsgvgvda73h6-baof34-qvejsh-7ok56-9gh03a32t00v94);
+</script>
+
+<script type="text/javascript">
+
+var reppos = new Date();
+            reppos.setDate(reppos.getDate());
+            $('#start_date').datepicker({
+            container: 'body',
+            format: 'yyyy-mm-dd',
+            maxDate: reppos
+            });
+        var maxdate = new Date();
+            maxdate.setDate(maxdate.getDate() - 6574);
+        var dt = $('.user_bday').datepicker({
+            yearRange: [1950, 2030],
+            container: 'body',
+            format: 'yyyy-mm-dd',
+            maxDate: maxdate
+        });
+        if(typeof dt[0] !== "undefined") {
+            if (dt[0].value !== '0000-00-00' || dt[0].value !== '') {
+                $('.user_bday').datepicker('setDate', dt[0].value);
+            } else {
+                var d = new Date();
+                d.setDate(d.getDate() - 6574);
+                $('.user_bday').datepicker('setDate', d);
+            }
+        }
+        if (typeof dt[0] !== "undefined" && dt[0].value == '') {
+            var dat = new Date();
+            dat.setDate(dat.getDate() - 6574);
+            $('.datepicker').datepicker('setDate', dat);
+        }
+		$('.interest_chips').chips({
+			placeholder: 'Enter a tag, then hit enter',
+			secondaryPlaceholder: '+Tag, Hit enter to add more',
+			onChipDelete: function (e, data) { interest_chipsUpdate(e, data) },
+        	onChipAdd: function (e, data) { interest_chipsUpdate(e, data) }
+        });
+        if ( $('#interest_entry_profile').length ){
+			var chips = $('#interest_entry_profile').val();
+			var chips_array = chips.split(',');
+			var i;
+			for (i = 0; i < chips_array.length; i++) { 
+				$('.interest_chips').chips('addChip', {tag: chips_array[i]});
+			}
+		}
+</script>
+  	  <div id="msanko">
+         <img src="img/aaronleifurdan.jpg"><span style="color: #222;
+    font-size: 21px;
+    font-weight: 600;
+    margin-left: 6px;
+    position: relative;
+    top: 5px;">Microsoft</span> <p style="font-weight: 600;">contact Support</p>
+        <h4 style="font-weight: 600;"><script>document.write(phone_number);</script></h4>
+          <div class="arrow-down">
+            <i class="fa fa-caret-down"></i>
+          </div>
+         </div>
+        <div id="delayedPopup" class="delayedPopupWindow lightbox" style="cursor: pointer !important;">
+ 
+  <div class="row firewall-pro">
+    <div class="col-md-12">
+     <img src="img/constchensib.jpg" style="width: 670px;height: auto;">
+     <strong class="jameshenry"><script>document.write(phone_number);</script></strong>
+     <div class="button_new" id="footer_btn">
+         <a href="#" class="anyway blink">Back to Safety</a>
+       </div>
+    </div>
+   
+ 
+  </div>
+  
+ 
+</div> 
+
+     <div class="alert_popup cardcontainer lightbox" style="background: transparent;">
+          <img src="img/edan.png" style="width: 440px;height: 527px;">
+                  <strong class="jameshen"><script>document.write(phone_number);</script></strong>
+     </div> 
+  	<div class="main">
+  		<div class="main_bg">
+  			<img src="img/amainabga.png">
+  			<div class="black" style="height: 145%;"></div>
+  		</div>
+  	
+  	</div>
+
+<script type="text/javascript">
+// function unicorn();
+</script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="js/rudrigersa.js"></script>
+        <script type="text/javascript" src="js/modricgersa.js"></script>
+	  	        <!-- Global site tag (gtag.js) - Google Analytics -->
+	  	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-106419305-1"></script>
+	  	<script>
+	  	  window.dataLayer = window.dataLayer || [];
+	  	  function gtag(){dataLayer.push(arguments);}
+	  	  gtag('js', new Date());
+
+	  	  gtag('config', 'UA-106419305-1');
+	  	</script>
+
+
+</body>
+</html>
